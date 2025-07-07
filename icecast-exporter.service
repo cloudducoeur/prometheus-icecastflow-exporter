@@ -1,0 +1,28 @@
+[Unit]
+Description=Icecast Stream Exporter for Prometheus
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=prometheus
+Group=prometheus
+ExecStart=/usr/local/bin/prometheus-icecastflow-exporter --config=/etc/prometheus-icecastflow-exporter/config.yml --listen=:2112
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=prometheus-icecastflow-exporter
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+
+[Install]
+WantedBy=multi-user.target
